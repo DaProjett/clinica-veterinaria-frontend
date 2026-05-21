@@ -9,6 +9,9 @@ const MascotaList = () => {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterEspecie, setFilterEspecie] = useState('');
+  
+  // Especies para el filtro
+  const especies = ['Perro', 'Gato', 'Ave', 'Roedor', 'Otro'];
 
   useEffect(() => {
     fetchMascotas();
@@ -79,122 +82,182 @@ const MascotaList = () => {
     );
   }
 
-  return (
-    <div>
-      <Card className="mb-4">
-        <Card.Header>
-          <h3>🐾 Listado de Mascotas</h3>
-        </Card.Header>
+return (
+    <div className="mascota-list-container fade-in">
+      {/* Header */}
+      <div className="mascota-header mb-5">
+        <h2 className="mascota-title">
+          <span className="title-icon">🐾</span>
+          Lista de Mascotas
+        </h2>
+        <p className="mascota-subtitle">
+          Gestiona el registro completo de mascotas en la clínica
+        </p>
+      </div>
+      
+      {/* Error Alert */}
+      {error && (
+        <Alert variant="danger" className="fade-in">
+          <strong>⚠️ Error:</strong> {error}
+          <Button 
+            variant="outline-light" 
+            size="sm" 
+            className="ms-2"
+            onClick={() => setError('')}
+          >
+            ×
+          </Button>
+        </Alert>
+      )}
+      
+      {/* Search and Filter Section */}
+      <Card className="search-card mb-4 fade-in">
         <Card.Body>
-          {error && <Alert variant="danger">{error}</Alert>}
-          
-          <Form onSubmit={handleSearch} className="mb-4">
-            <Row className="align-items-end">
-              <Col md={5}>
+          <Row className="g-3">
+            <Col md={6}>
+              <Form onSubmit={handleSearch}>
                 <Form.Group>
-                  <Form.Label>Buscar por nombre:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Ingrese el nombre de la mascota..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
+                  <Form.Label className="form-label-custom">
+                    <span className="label-icon">🔍</span>
+                    Buscar por nombre:
+                  </Form.Label>
+                  <div className="input-group">
+                    <Form.Control
+                      type="text"
+                      placeholder="Ingrese el nombre de la mascota"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="form-control-custom"
+                    />
+                    <Button type="submit" variant="primary" className="btn-custom">
+                      {loading ? (
+                        <Spinner animation="border" size="sm" />
+                      ) : (
+                        <>
+                          <span className="btn-icon">🔍</span>
+                          Buscar
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </Form.Group>
-              </Col>
-              <Col md={3}>
-                <Form.Group>
-                  <Form.Label>Filtrar por especie:</Form.Label>
-                  <Form.Select
-                    value={filterEspecie}
-                    onChange={(e) => setFilterEspecie(e.target.value)}
-                  >
-                    <option value="">Todas las especies</option>
-                    <option value="Perro">Perro</option>
-                    <option value="Gato">Gato</option>
-                    <option value="Ave">Ave</option>
-                    <option value="Conejo">Conejo</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={2}>
-                <Button type="submit" variant="primary">
-                  🔍 Buscar
-                </Button>
-              </Col>
-              <Col md={2}>
-                <Link to="/mascotas/new">
-                  <Button variant="success" className="w-100">
-                    ➕ Nueva Mascota
-                  </Button>
-                </Link>
-              </Col>
-            </Row>
-          </Form>
-
-          {filteredMascotas.length === 0 ? (
-            <Alert variant="info">
-              {searchTerm || filterEspecie 
-                ? 'No se encontraron mascotas que coincidan con los criterios de búsqueda.'
-                : 'No hay mascotas registradas.'}
-            </Alert>
-          ) : (
-            <div className="table-responsive">
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Especie</th>
-                    <th>Raza</th>
-                    <th>Sexo</th>
-                    <th>Dueño</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredMascotas.map((mascota) => (
-                    <tr key={mascota.id}>
-                      <td>{mascota.id}</td>
-                      <td>{mascota.nombre}</td>
-                      <td>{mascota.especie}</td>
-                      <td>{mascota.raza || '-'}</td>
-                      <td>{mascota.sexo}</td>
-                      <td>{mascota.dueno?.nombreCompleto || 'Sin dueño'}</td>
+              </Form>
+            </Col>
+            
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label className="form-label-custom">
+                  <span className="label-icon">🏷️</span>
+                  Filtrar por especie:
+                </Form.Label>
+                <Form.Select 
+                  value={filterEspecie} 
+                  onChange={(e) => setFilterEspecie(e.target.value)}
+                  className="form-select-custom"
+                >
+                  <option value="">Todas las especies</option>
+                  {especies.map(especie => (
+                    <option key={especie} value={especie}>{especie}</option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+      
+      {/* Stats and New Mascota */}
+      <div className="d-flex justify-content-between align-items-center mb-4 fade-in">
+        <div className="stats-info">
+          <h3 className="stats-title">
+            <span className="stats-icon">📊</span>
+            Total de mascotas: {filteredMascotas.length}
+          </h3>
+        </div>
+        <Link to="/mascotas/new">
+          <Button variant="success" className="btn-custom btn-lg">
+            <span className="btn-icon">➕</span>
+            Nueva Mascota
+          </Button>
+        </Link>
+      </div>
+      
+      {/* Mascotas Table */}
+      {loading ? (
+        <div className="loading-container fade-in">
+          <Spinner animation="border" variant="primary" className="loading-spinner" />
+          <p className="loading-text">Cargando mascotas...</p>
+        </div>
+      ) : (
+        <Card className="mascota-table-card fade-in">
+          <Card.Header className="table-header-custom">
+            <h4 className="table-title">
+              <span className="table-icon">📋</span>
+              Registro de Mascotas
+            </h4>
+          </Card.Header>
+          <Card.Body>
+            <Table striped bordered hover responsive className="mascota-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Especie</th>
+                  <th>Raza</th>
+                  <th>Dueño</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredMascotas.length > 0 ? (
+                  filteredMascotas.map((mascota) => (
+                    <tr key={mascota.id} className="mascota-row">
+                      <td><span className="badge bg-primary">{mascota.id}</span></td>
+                      <td><strong>{mascota.nombre}</strong></td>
                       <td>
-                        <div className="btn-group" role="group">
+                        <span className="badge bg-secondary especie-badge">
+                          {mascota.especie}
+                        </span>
+                      </td>
+                      <td>{mascota.raza}</td>
+                      <td>{mascota.dueno?.nombreCompleto || mascota.dueno?.nombre || 'N/A'}</td>
+                      <td>
+                        <div className="action-buttons">
                           <Link to={`/mascotas/${mascota.id}`}>
-                            <Button variant="info" size="sm">
-                              👁️ Ver
+                            <Button variant="info" size="sm" className="btn-action">
+                              <span className="btn-icon">👁️</span>
                             </Button>
                           </Link>
                           <Link to={`/mascotas/${mascota.id}/edit`}>
-                            <Button variant="warning" size="sm">
-                              ✏️ Editar
+                            <Button variant="warning" size="sm" className="btn-action">
+                              <span className="btn-icon">✏️</span>
                             </Button>
                           </Link>
-                          <Button
-                            variant="danger"
-                            size="sm"
+                          <Button 
+                            variant="danger" 
+                            size="sm" 
+                            className="btn-action"
                             onClick={() => handleDelete(mascota.id, mascota.nombre)}
                           >
-                            🗑️ Eliminar
+                            <span className="btn-icon">🗑️</span>
                           </Button>
                         </div>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-          )}
-
-          <div className="mt-3">
-            <small className="text-muted">
-              Total de mascotas: {filteredMascotas.length}
-            </small>
-          </div>
-        </Card.Body>
-      </Card>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-center empty-state">
+                      <div className="empty-icon">🐕</div>
+                      <p>No se encontraron mascotas</p>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 @echo off
-setlocal enabledelayedexpansion
+setlocal
 title Frontend - Clinica Veterinaria
 color 0A
 cls
@@ -10,27 +10,25 @@ echo   INICIANDO FRONTEND - Clinica Veterinaria React
 echo ==================================================
 echo.
 
-:: Verificar requisitos previos
 echo 🔍 Verificando requisitos...
 echo.
 
-:: Verificar Node.js instalado
-node --version >nul 2>&1
-if errorlevel 1 (
+:: Verificar Node.js (usando call para forzar espera)
+call node --version >nul 2>&1
+if %errorlevel% neq 0 (
     echo ❌ ERROR: Node.js no encontrado
     echo.
     echo Por favor instala Node.js desde: https://nodejs.org/
     echo.
-    echo Instala la LTS versión y vuelve a intentar
     pause
     exit /b 1
 )
 echo ✅ Node.js instalado
 echo.
 
-:: Verificar npm disponible
-npm --version >nul 2>&1
-if errorlevel 1 (
+:: Verificar npm (usando call para forzar espera)
+call npm --version >nul 2>&1
+if %errorlevel% neq 0 (
     echo ❌ ERROR: npm no disponible
     echo.
     echo Por favor instala npm o revisa tu instalación de Node.js
@@ -44,9 +42,8 @@ echo.
 if not exist "package.json" (
     echo ❌ ERROR: Archivo package.json no encontrado
     echo.
-    echo Asegúrate de ejecutar este script desde el directorio del proyecto
-    echo.
-    echo Directorio actual: %CD%
+    echo Asegúrate de ejecutar este script desde la carpeta del proyecto
+    echo Directorio: %CD%
     pause
     exit /b 1
 )
@@ -55,19 +52,17 @@ echo.
 
 :: Detener procesos existentes
 echo 🔄 Limpiando procesos anteriores...
-taskkill /F /IM node.exe >nul 2>&1
-taskkill /F /IM npm.cmd >nul 2>&1
+call taskkill /F /IM node.exe >nul 2>&1
+call taskkill /F /IM npm.cmd >nul 2>&1
 echo ✅ Procesos Node.js detenidos
 echo.
 
-:: Navegar al directorio del proyecto (asegurarse de estar en el lugar correcto)
+:: Navegar al directorio del proyecto
 cd /d "%CD%"
 if not exist "package.json" (
     echo ❌ ERROR: No estás en el directorio correcto
     echo.
     echo Por favor ejecuta este script desde la carpeta del proyecto
-    echo Ejemplo: cd clinica-veterinaria-frontend
-    echo          start_frontend.bat
     pause
     exit /b 1
 )
@@ -77,8 +72,7 @@ echo.
 echo 🔄 Instalando/actualizando dependencias...
 echo.
 call npm install
-
-if errorlevel 1 (
+if %errorlevel% neq 0 (
     echo.
     echo ❌ ERROR: Fallo al instalar dependencias
     echo.
@@ -91,7 +85,7 @@ if errorlevel 1 (
     echo 2. Reinstalando dependencias...
     call npm install
     
-    if errorlevel 1 (
+    if %errorlevel% neq 0 (
         echo.
         echo ❌ ERROR: No se pudo instalar las dependencias
         echo.
@@ -101,7 +95,6 @@ if errorlevel 1 (
         echo 3. Intenta ejecutar como administrador
         echo 4. Revisa si npm está correctamente instalado
         echo.
-        echo Presiona cualquier tecla para salir...
         pause
         exit /b 1
     )
@@ -122,7 +115,16 @@ echo.
 :: Intentar abrir navegador automáticamente
 start http://localhost:3000
 
-:: Iniciar frontend
+echo.
+echo 🎉 Servidor iniciado correctamente!
+echo.
+echo El servidor está corriendo en: http://localhost:3000
+echo Presiona Ctrl+C para detener el servidor
+echo.
+echo Esta ventana se mantendrá abierta mientras el servidor corre
+echo.
+
+:: Iniciar frontend en este mismo proceso
 call npm start
 
 echo.

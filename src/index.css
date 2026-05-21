@@ -1,13 +1,596 @@
+/* CSS Variables para Sistema de Diseño - Clínica Veterinaria */
+:root {
+  /* Paleta de Colores */
+  --primary-color: #2E7D32;     /* Verde salud */
+  --primary-dark: #1B5E20;      /* Verde oscuro */
+  --primary-light: #4CAF50;     /* Verde claro */
+  --secondary-color: #1976D2;    /* Azul confianza */
+  --secondary-dark: #1565C0;     /* Azul oscuro */
+  --secondary-light: #42A5F5;    /* Azul claro */
+  --accent-color: #FF6B35;      /* Naranje energía */
+  --accent-dark: #E65100;       /* Naranje oscuro */
+  --accent-light: #FF8A65;      /* Naranje claro */
+  
+  /* Colores Neutros */
+  --text-primary: #212529;      /* Texto principal */
+  --text-secondary: #6C757D;    /* Texto secundario */
+  --text-light: #FFFFFF;        /* Texto blanco */
+  --background: #F8F9FA;        /* Fondo claro */
+  --background-dark: #343A40;   /* Fondo oscuro */
+  --card-bg: #FFFFFF;           /* Fondo de cards */
+  --border-color: #DEE2E6;      /* Bordes */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Sombra suave */
+  
+  /* Espaciado */
+  --spacing-xs: 0.25rem;         /* 4px */
+  --spacing-sm: 0.5rem;         /* 8px */
+  --spacing-md: 1rem;           /* 16px */
+  --spacing-lg: 1.5rem;         /* 24px */
+  --spacing-xl: 2rem;           /* 32px */
+  --spacing-xxl: 3rem;          /* 48px */
+  
+  /* Bordes y Radio */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-radius-full: 50px;
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 4px var(--shadow-color);
+  --shadow-md: 0 4px 8px var(--shadow-color);
+  --shadow-lg: 0 8px 16px var(--shadow-color);
+  --shadow-xl: 0 16px 32px var(--shadow-color);
+  
+  /* Transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Reset y Estilos Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+h1 { font-size: 2.5rem; line-height: 1.2; }
+h2 { font-size: 2rem; line-height: 1.3; }
+h3 { font-size: 1.75rem; line-height: 1.4; }
+h4 { font-size: 1.5rem; line-height: 1.5; }
+h5 { font-size: 1.25rem; line-height: 1.6; }
+h6 { font-size: 1rem; line-height: 1.6; }
+
+p {
+  margin-bottom: var(--spacing-md);
+  color: var(--text-secondary);
+}
+
+/* Links */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Botones Base */
+.btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1rem;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Cards Base */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-lg);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--border-color);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Tablas Base */
+.table {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table thead {
+  background: var(--primary-color);
+  color: var(--text-light);
+}
+
+.table tbody tr:hover {
+  background-color: rgba(46, 125, 50, 0.1);
+}
+
+/* Formularios Base */
+.form-control {
+  padding: var(--spacing-sm);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+  background: var(--card-bg);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-normal) ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-nav-custom {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .nav-link-custom {
+    justify-content: center;
+    padding: var(--spacing-md);
+  }
+}
+
+/* MascotaList Component Styles */
+.mascota-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.mascota-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.mascota-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.mascota-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.title-icon {
+  font-size: 2.5rem;
+  animation: bounce 2s infinite;
+}
+
+/* Search Card */
+.search-card {
+  background: linear-gradient(135deg, var(--card-bg) 0%, #f8f9fa 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-label-custom {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.label-icon {
+  font-size: 1.1rem;
+}
+
+.form-control-custom {
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: all var(--transition-fast);
+  font-size: 1rem;
+}
+
+.form-control-custom:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.form-select-custom {
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: all var(--transition-fast);
+  font-size: 1rem;
+}
+
+.form-select-custom:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+/* Button Styles */
+.btn-custom {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1rem;
+  text-decoration: none !important;
+}
+
+.btn-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-custom:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+.btn-lg {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 1.1rem;
+}
+
+.btn-action {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.875rem;
+  min-width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-full);
+}
+
+/* Stats Info */
+.stats-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.stats-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.stats-icon {
+  font-size: 1.5rem;
+}
+
+/* Table Styles */
+.mascota-table-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.table-header-custom {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: var(--text-light);
+  border: none;
+  padding: var(--spacing-lg);
+}
+
+.table-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.table-icon {
+  font-size: 1.5rem;
+}
+
+.mascota-table {
+  font-size: 0.95rem;
+}
+
+.mascota-row {
+  transition: all var(--transition-fast);
+}
+
+.mascota-row:hover {
+  background-color: rgba(46, 125, 50, 0.05);
+  transform: scale(1.01);
+}
+
+.especie-badge {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.badge {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-weight: 500;
+  border-radius: var(--border-radius-sm);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+/* Loading Container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Empty State */
+.empty-state {
+  padding: var(--spacing-xxl);
+  color: var(--text-secondary);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mascota-list-container {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .mascota-title {
+    font-size: 2rem;
+  }
+  
+  .stats-title {
+    font-size: 1.25rem;
+  }
+  
+  .action-buttons {
+    justify-content: center;
+  }
+  
+  .mascota-table {
+    font-size: 0.875rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* Code Styling */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Roboto Mono', Consolas, 'Courier New', monospace;
+  background: var(--background-dark);
+  color: var(--text-light);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: 0.875rem;
+}
+
+/* Navbar Veterinaria Styles */
+.navbar-veterinaria {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+  border-bottom: 3px solid var(--accent-color);
+  padding: var(--spacing-sm) 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-brand-veterinaria {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-light) !important;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.navbar-brand-veterinaria:hover {
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  font-size: 2rem;
+  animation: bounce 2s infinite;
+}
+
+.brand-text {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-toggle-custom {
+  border: 2px solid var(--text-light);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-xs);
+  transition: all var(--transition-fast);
+}
+
+.navbar-toggle-custom:hover {
+  background: var(--text-light);
+}
+
+.navbar-toggle-custom:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.navbar-collapse-custom {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius-lg);
+  margin-top: var(--spacing-sm);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.navbar-nav-custom {
+  gap: var(--spacing-lg);
+}
+
+.nav-link-custom {
+  color: var(--text-light) !important;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-weight: 500;
+}
+
+.nav-link-custom:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+  text-decoration: none !important;
+}
+
+.nav-link-custom.active {
+  background: var(--accent-color);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+/* Animations */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Responsive Navbar */
+@media (max-width: 992px) {
+  .navbar-brand-veterinaria {
+    font-size: 1.25rem;
+  }
+  
+  .logo-icon {
+    font-size: 1.5rem;
+  }
+  
+  .navbar-collapse-custom {
+    margin-top: var(--spacing-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-nav-custom {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .nav-link-custom {
+    justify-content: center;
+    padding: var(--spacing-md);
+  }
 }
